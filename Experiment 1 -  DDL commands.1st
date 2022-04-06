@@ -1,0 +1,81 @@
+SQL> create table student(studname varchar(19),regno number(4));
+
+Table created.
+
+SQL> select * from student;
+
+no rows selected
+
+SQL> insert into student values('Abhiash',19);
+
+1 row created.
+
+SQL> select * from student;
+
+STUDNAME                 REGNO                                                  
+------------------- ----------                                                  
+Abhiash                     19                                                  
+
+SQL> alter table student add(cgpa number(6));
+
+Table altered.
+
+SQL> select * from student;
+
+STUDNAME                 REGNO       CGPA                                       
+------------------- ---------- ----------                                       
+Abhiash                     19                                                  
+
+SQL> alter table student drop column cgpa;
+
+Table altered.
+
+SQL> select * from student;
+
+STUDNAME                 REGNO                                                  
+------------------- ----------                                                  
+Abhiash                     19                                                  
+
+SQL> rename student to 1student;
+rename student to 1student
+                  *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> select * from student
+  2  
+SQL> rename truncate table 1student;
+rename truncate table 1student
+                *
+ERROR at line 1:
+ORA-00946: missing TO keyword 
+
+
+SQL> select * from student;
+
+STUDNAME                 REGNO                                                  
+------------------- ----------                                                  
+Abhiash                     19                                                  
+
+SQL> rename student to l2student
+  2  
+SQL> rename student to l2student;
+
+Table renamed.
+
+SQL> select * from student
+  2  
+SQL> truncate table l2student;
+
+Table truncated.
+
+SQL> select * from l2student;
+
+no rows selected
+
+SQL> drop table l2student;
+
+Table dropped.
+
+SQL> spool off
