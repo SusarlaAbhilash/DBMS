@@ -1,0 +1,226 @@
+SQL> CREATE TABLE orders(O_id number(5),  Orderno number(5), P_Id number(3));
+
+Table created.
+
+SQL> DESC orders;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ O_ID                                               NUMBER(5)
+ ORDERNO                                            NUMBER(5)
+ P_ID                                               NUMBER(3)
+
+SQL> INSERT INTO orders VALUES(&O_id, &Orderno, &P_Id);
+Enter value for o_id: 1
+Enter value for orderno: 77895
+Enter value for p_id: 3
+old   1: INSERT INTO orders VALUES(&O_id, &Orderno, &P_Id)
+new   1: INSERT INTO orders VALUES(1, 77895, 3)
+
+1 row created.
+
+SQL> /
+Enter value for o_id: 2
+Enter value for orderno: 44678
+Enter value for p_id: 3
+old   1: INSERT INTO orders VALUES(&O_id, &Orderno, &P_Id)
+new   1: INSERT INTO orders VALUES(2, 44678, 3)
+
+1 row created.
+
+SQL> 3
+SP2-0226: Invalid line number 
+SQL> 22456
+SP2-0226: Invalid line number 
+SQL> 1
+  1* INSERT INTO orders VALUES(&O_id, &Orderno, &P_Id)
+SQL> /
+Enter value for o_id: 3
+Enter value for orderno: 22456
+Enter value for p_id: 1
+old   1: INSERT INTO orders VALUES(&O_id, &Orderno, &P_Id)
+new   1: INSERT INTO orders VALUES(3, 22456, 1)
+
+1 row created.
+
+SQL> /
+Enter value for o_id: 4
+Enter value for orderno: 24562
+Enter value for p_id: 1
+old   1: INSERT INTO orders VALUES(&O_id, &Orderno, &P_Id)
+new   1: INSERT INTO orders VALUES(4, 24562, 1)
+
+1 row created.
+
+SQL> /
+Enter value for o_id: 5
+Enter value for orderno: 34764
+Enter value for p_id: 15
+old   1: INSERT INTO orders VALUES(&O_id, &Orderno, &P_Id)
+new   1: INSERT INTO orders VALUES(5, 34764, 15)
+
+1 row created.
+
+SQL> SELECT * FROM orders;
+
+      O_ID    ORDERNO       P_ID                                                
+---------- ---------- ----------                                                
+         1      77895          3                                                
+         2      44678          3                                                
+         3      22456          1                                                
+         4      24562          1                                                
+         5      34764         15                                                
+
+SQL> CREATE TABLE persons(p_id number(5), LASTNAME varchar2(10), Firstname varchar2(15), Addresz varchar2(20), city varchar2(10));
+
+Table created.
+
+SQL> desc persons;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ P_ID                                               NUMBER(5)
+ LASTNAME                                           VARCHAR2(10)
+ FIRSTNAME                                          VARCHAR2(15)
+ ADDRESZ                                            VARCHAR2(20)
+ CITY                                               VARCHAR2(10)
+
+SQL> INSERT INTO persons VALUES(&p_id,'&LASTNAME', '&Firstname', '&Addresz', '&city');
+Enter value for p_id: 1
+Enter value for lastname: Hansen
+Enter value for firstname: Ola
+Enter value for addresz: Timoteivn 10
+Enter value for city: sadnes
+old   1: INSERT INTO persons VALUES(&p_id,'&LASTNAME', '&Firstname', '&Addresz', '&city')
+new   1: INSERT INTO persons VALUES(1,'Hansen', 'Ola', 'Timoteivn 10', 'sadnes')
+
+1 row created.
+
+SQL> ALTER TABLE persons RENAME COLUMN Addresz TO Address
+  2  ;
+
+Table altered.
+
+SQL> desc persons;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ P_ID                                               NUMBER(5)
+ LASTNAME                                           VARCHAR2(10)
+ FIRSTNAME                                          VARCHAR2(15)
+ ADDRESS                                            VARCHAR2(20)
+ CITY                                               VARCHAR2(10)
+
+SQL> INSERT INTO persons VALUES(&p_id,'&LASTNAME', '&Firstname', '&Address', '&city');
+Enter value for p_id: 2
+Enter value for lastname: Svendson
+Enter value for firstname: Tove
+Enter value for address: Borgn 23
+Enter value for city: Sandnes
+old   1: INSERT INTO persons VALUES(&p_id,'&LASTNAME', '&Firstname', '&Address', '&city')
+new   1: INSERT INTO persons VALUES(2,'Svendson', 'Tove', 'Borgn 23', 'Sandnes')
+
+1 row created.
+
+SQL> /
+Enter value for p_id: 3
+Enter value for lastname: Pettersen
+Enter value for firstname: Kari
+Enter value for address: Storgt 20
+Enter value for city: Stavanger
+old   1: INSERT INTO persons VALUES(&p_id,'&LASTNAME', '&Firstname', '&Address', '&city')
+new   1: INSERT INTO persons VALUES(3,'Pettersen', 'Kari', 'Storgt 20', 'Stavanger')
+
+1 row created.
+
+SQL> SELECT * FROM persons;
+
+      P_ID LASTNAME   FIRSTNAME       ADDRESS              CITY                 
+---------- ---------- --------------- -------------------- ----------           
+         1 Hansen     Ola             Timoteivn 10         sadnes               
+         2 Svendson   Tove            Borgn 23             Sandnes              
+         3 Pettersen  Kari            Storgt 20            Stavanger            
+
+SQL> SELECT persons.LASTNAME,persons.Firstname,orders.Orderno From persons LEFT JOIN orders ON persons p_id = orders.p_id ORDER BY persons.LASTNAME;
+SELECT persons.LASTNAME,persons.Firstname,orders.Orderno From persons LEFT JOIN orders ON persons p_id = orders.p_id ORDER BY persons.LASTNAME
+                                                                                                  *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT persons.LASTNAME,persons.Firstname,orders.Orderno From persons LEFT JOIN orders ON persons.p_id = orders.p_id ORDER BY persons.LASTNAME;
+
+LASTNAME   FIRSTNAME          ORDERNO                                           
+---------- --------------- ----------                                           
+Hansen     Ola                  22456                                           
+Hansen     Ola                  24562                                           
+Pettersen  Kari                 44678                                           
+Pettersen  Kari                 77895                                           
+Svendson   Tove                                                                 
+
+SQL> SELECT * FROM orders;
+
+      O_ID    ORDERNO       P_ID                                                
+---------- ---------- ----------                                                
+         1      77895          3                                                
+         2      44678          3                                                
+         3      22456          1                                                
+         4      24562          1                                                
+         5      34764         15                                                
+
+SQL> SELECT * FROM persons;
+
+      P_ID LASTNAME   FIRSTNAME       ADDRESS              CITY                 
+---------- ---------- --------------- -------------------- ----------           
+         1 Hansen     Ola             Timoteivn 10         sadnes               
+         2 Svendson   Tove            Borgn 23             Sandnes              
+         3 Pettersen  Kari            Storgt 20            Stavanger            
+
+SQL> SELECT persons.LASTNAME, persons.Firstname, orders.Orderno FROM persons FULL OUTER JOIN orders ON persons.p_id = orders.p_id ORDER BY persons.LASTNAME;
+
+LASTNAME   FIRSTNAME          ORDERNO                                           
+---------- --------------- ----------                                           
+Hansen     Ola                  22456                                           
+Hansen     Ola                  24562                                           
+Pettersen  Kari                 44678                                           
+Pettersen  Kari                 77895                                           
+Svendson   Tove                                                                 
+                                34764                                           
+
+6 rows selected.
+
+SQL> SELECT persons.LASTNAME, persons.Firstname, orders.Orderno FROM persons RIGHT OUTER JOIN orders ON persons.p_id = orders.p_id ORDER BY persons.LASTNAME;
+
+LASTNAME   FIRSTNAME          ORDERNO                                           
+---------- --------------- ----------                                           
+Hansen     Ola                  22456                                           
+Hansen     Ola                  24562                                           
+Pettersen  Kari                 77895                                           
+Pettersen  Kari                 44678                                           
+                                34764                                           
+
+SQL> SELECT persons.LASTNAME, persons.Firstname, orders.Orderno FROM persons INNER JOIN orders ON persons.p_id = orders.p_id ORDER BY persons.LASTNAME;
+
+LASTNAME   FIRSTNAME          ORDERNO                                           
+---------- --------------- ----------                                           
+Hansen     Ola                  22456                                           
+Hansen     Ola                  24562                                           
+Pettersen  Kari                 77895                                           
+Pettersen  Kari                 44678                                           
+
+SQL> select * from persons;
+
+      P_ID LASTNAME   FIRSTNAME       ADDRESS              CITY                 
+---------- ---------- --------------- -------------------- ----------           
+         1 Hansen     Ola             Timoteivn 10         sadnes               
+         2 Svendson   Tove            Borgn 23             Sandnes              
+         3 Pettersen  Kari            Storgt 20            Stavanger            
+
+SQL> select * from orders;
+
+      O_ID    ORDERNO       P_ID                                                
+---------- ---------- ----------                                                
+         1      77895          3                                                
+         2      44678          3                                                
+         3      22456          1                                                
+         4      24562          1                                                
+         5      34764         15                                                
+
+SQL> spool off
