@@ -1,0 +1,489 @@
+
+SQL*Plus: Release 11.2.0.4.0 Production on Mon Mar 28 08:32:15 2022
+
+Copyright (c) 1982, 2013, Oracle.  All rights reserved.
+
+Enter user-name: RA1911033010009/RA1911033010009@3.232.175.251/ORCL
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=10;
+  6  b:=20;
+  7  if(a>b)then
+  8  dbms_output.put_outline('c is max');
+  9  end if;
+ 10  end;
+ 11  /
+dbms_output.put_outline('c is max');
+            *
+ERROR at line 8:
+ORA-06550: line 8, column 13:
+PLS-00302: component 'PUT_OUTLINE' must be declared
+ORA-06550: line 8, column 1:
+PL/SQL: Statement ignored
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=10;
+  6  b:=20;
+  7  if(a>b)then
+  8  dbms_output.put_line('c is max');
+  9  end if;
+ 10  end;
+ 11  /
+
+PL/SQL procedure successfully completed.
+
+SQL> dbms_output.put_line('b is max');
+SP2-0734: unknown command beginning "dbms_outpu..." - rest of line ignored.
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=10;
+  6  b:=20;
+  7  if(a>b)then
+  8  end if;
+  9  end;
+ 10  /
+end if;
+*
+ERROR at line 8:
+ORA-06550: line 8, column 1:
+PLS-00103: Encountered the symbol "END" when expecting one of the following:
+( begin case declare exit for goto if loop mod null pragma
+raise return select update while with <an identifier>
+<a double-quoted delimited-identifier> <a bind variable> <<
+continue close current delete fetch lock insert open rollback
+savepoint set sql execute commit forall merge pipe purge
+json_exists json_value json_query json_object json_array
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=10;
+  6  b:=20;
+  7  if(a>b)then
+  8  dbms_output.put_line('b is max');
+  9  end if;
+ 10  end;
+ 11  /
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on;
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=10;
+  6  b:=20;
+  7  if(a>b)then
+  8  dbms_output.put_line('b is max');
+  9  end if;
+ 10  end;
+ 11  /
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on;
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=10;
+  6  b:=20;
+  7  if(a>b)then
+  8  dbms_output.put_line('b is max');
+  9  end if;
+ 10  end;
+ 11  /
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=&a;
+  6  b:=&b;
+  7  c:=a+b;
+  8  dbms_output.put_line('sum of'||a||'and'||b||'is'||c);
+  9  end;
+ 10  /
+Enter value for a: 10
+old   5: a:=&a;
+new   5: a:=10;
+Enter value for b: 20
+old   6: b:=&b;
+new   6: b:=20;
+c:=a+b;
+*
+ERROR at line 7:
+ORA-06550: line 7, column 1:
+PLS-00201: identifier 'C' must be declared
+ORA-06550: line 7, column 1:
+PL/SQL: Statement ignored
+ORA-06550: line 8, column 51:
+PLS-00201: identifier 'C' must be declared
+ORA-06550: line 8, column 1:
+PL/SQL: Statement ignored
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  begin
+  6  a:=&a;
+  7  b:=&b;
+  8  c:=a+b;
+  9  dbms_output.put_line('sum of'||a||'and'||b||'is'||c);
+ 10  end;
+ 11  /
+Enter value for a: 10
+old   6: a:=&a;
+new   6: a:=10;
+Enter value for b: 20
+old   7: b:=&b;
+new   7: b:=20;
+sum of10and20is30
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=&a;
+  6  b:=&b;
+  7  if(a>b)then
+  8  dbms_output.put_line('a is max');
+  9  end if;
+ 10  end;
+ 11  /
+Enter value for a: 10
+old   5: a:=&a;
+new   5: a:=10;
+Enter value for b: 5
+old   6: b:=&b;
+new   6: b:=5;
+a is max
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  n number;
+  3  begin
+  4  dbms_output.put_line('enter a number');
+  5  n:=&number;
+  6  if n<5 then
+  7  dbms_output.put_line('given number is less than 5');
+  8  else
+  9  dbms_output.put_line('given number is greater than 5');
+ 10  end if;
+ 11  end;
+ 12  /
+Enter value for number: 4
+old   5: n:=&number;
+new   5: n:=4;
+enter a number
+given number is less than 5
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  d number;
+  6  begin
+  7  a:=&a;
+  8  b:=&b;
+  9  c:=&c;
+ 10  if(a>b)and(a>c)then
+ 11  dbms_output.put_line('a is max');
+ 12  elseif(b>a)and(b>c)then
+ 13  dbms_output.put_line('b is max');
+ 14  else
+ 15  dbms_output.put_line('c is max');
+ 16  end if;
+ 17  end;
+ 18  /
+Enter value for a: 12
+old   7: a:=&a;
+new   7: a:=12;
+Enter value for b: 25
+old   8: b:=&b;
+new   8: b:=25;
+Enter value for c: 16
+old   9: c:=&c;
+new   9: c:=16;
+elseif(b>a)and(b>c)then
+           *
+ERROR at line 12:
+ORA-06550: line 12, column 12:
+PLS-00103: Encountered the symbol "AND" when expecting one of the following:
+:= . ( % ;
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  d number;
+  6  begin
+  7  a:=&a;
+  8  b:=&b;
+  9  c:=&c;
+ 10  if(a>b) AND (a>c)then
+ 11  dbms_output.put_line('a is max');
+ 12  elseif(b>a) AND (b>c)then
+ 13  dbms_output.put_line('b is max');
+ 14  else
+ 15  dbms_output.put_line('c is max');
+ 16  end if;
+ 17  end;
+ 18  /
+Enter value for a: 12
+old   7: a:=&a;
+new   7: a:=12;
+Enter value for b: 15
+old   8: b:=&b;
+new   8: b:=15;
+Enter value for c: 19
+old   9: c:=&c;
+new   9: c:=19;
+elseif(b>a) AND (b>c)then
+            *
+ERROR at line 12:
+ORA-06550: line 12, column 13:
+PLS-00103: Encountered the symbol "AND" when expecting one of the following:
+:= . ( % ;
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  d number;
+  6  begin
+  7  a:=&a;
+  8  b:=&b;
+  9  c:=&c;
+ 10  if(a>b)AND(a>c)then
+ 11  dbms_output.put_line('a is max');
+ 12  elseif(b>a)AND(b>c)then
+ 13  dbms_output.put_line('b is max');
+ 14  else
+ 15  dbms_output.put_line('c is max');
+ 16  end if;
+ 17  end;
+ 18  /
+Enter value for a: 4
+old   7: a:=&a;
+new   7: a:=4;
+Enter value for b: 5\
+old   8: b:=&b;
+new   8: b:=5\;
+Enter value for c: 6
+old   9: c:=&c;
+new   9: c:=6;
+ERROR:
+ORA-03114: not connected to ORACLE
+
+
+declare
+*
+ERROR at line 1:
+ORA-03135: connection lost contact
+Process ID: 15250
+Session ID: 61 Serial number: 20721
+
+
+SQL> spool off
+not spooling currently
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SQL*Plus: Release 11.2.0.4.0 Production on Mon Mar 28 08:15:09 2022
+
+Copyright (c) 1982, 2013, Oracle.  All rights reserved.
+
+Enter user-name: RA1911033010009/RA1911033010009@3.232.175.251/ORCL
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+SQL> spool on
+SQL> plsql009.lst
+SP2-0734: unknown command beginning "plsql009.l..." - rest of line ignored.
+SQL> spool plsql009.lst
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  begin
+  6  a:=&a;
+  7  b:=&b;
+  8  c:=a+b;
+  9  dbms_output.put_line('sum of'||a||'and||b||'is'||c||);
+ 10  end;
+ 11  /
+Enter value for a: 21
+old   6: a:=&a;
+new   6: a:=21;
+Enter value for b: 22
+old   7: b:=&b;
+new   7: b:=22;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  begin
+  6  a:=&a;
+  7  b:=&b;
+  8  c:=a+b;
+  9  dbms_output.put_line('sum of'||a||'and'||b||'is'||c||);
+ 10  end;
+ 11  /
+Enter value for a: 22
+old   6: a:=&a;
+new   6: a:=22;
+Enter value for b: 52
+old   7: b:=&b;
+new   7: b:=52;
+dbms_output.put_line('sum of'||a||'and'||b||'is'||c||);
+                                                     *
+ERROR at line 9:
+ORA-06550: line 9, column 54:
+PLS-00103: Encountered the symbol ")" when expecting one of the following:
+( - + case mod new null <an identifier>
+<a double-quoted delimited-identifier> <a bind variable>
+continue avg count current max min prior sql stddev sum
+variance execute forall merge time timestamp interval date
+<a string literal with character set specification>
+<a number> <a single-quoted SQL string> pipe
+<an alternatively-quoted string literal with character set specification>
+<an alternatively-quoted SQL
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  begin
+  6  a:=&a;
+  7  b:=&b;
+  8  c:=a+b;
+  9  dbms_output.put_line('sum of'||a||'and'||b||'is'c);
+ 10  end;
+ 11  /
+Enter value for a: 22
+old   6: a:=&a;
+new   6: a:=22;
+Enter value for b: 51
+old   7: b:=&b;
+new   7: b:=51;
+dbms_output.put_line('sum of'||a||'and'||b||'is'c);
+                                                *
+ERROR at line 9:
+ORA-06550: line 9, column 49:
+PLS-00103: Encountered the symbol "C" when expecting one of the following:
+) , * & = - + < / > at in is mod remainder not rem =>
+<an exponent (**)> <> or != or ~= >= <= <> and or default
+like like2 like4 likec as between from using || member
+submultiset
+The symbol "," was substituted for "C" to continue.
+
+
+SQL> declare
+  2  a number;
+  3  b number;
+  4  c number;
+  5  begin
+  6  a:=&a;
+  7  b:=&b;
+  8  c:=a+b;
+  9  dbms_output.put_line('sum of'||a||'and'||b||'is'||c);
+ 10  end;
+ 11  /
+Enter value for a: 2
+old   6: a:=&a;
+new   6: a:=2;
+Enter value for b: 3
+old   7: b:=&b;
+new   7: b:=3;
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  b number;
+  3  c number;
+  4  begin
+  5  b:=10;
+  6  c:=20;
+  7  if(c>b) then
+  8  dbms_output.put_line('c is max');
+  9  end if;
+ 10  end;
+ 11  /
+declare
+*
+ERROR at line 1:
+ORA-03135: connection lost contact
+Process ID: 12158
+Session ID: 351 Serial number: 19962
+
+
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
